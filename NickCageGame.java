@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
+import java.lang.Math;
 
 public class NickCageGame {
     
@@ -23,7 +23,6 @@ public class NickCageGame {
     public JFrame mainFrame = new JFrame();
     
     private String choice;
-    private Random r = new Random();
     
     //inital dialog to start game and choose character
     public void gameSetup() {
@@ -104,34 +103,48 @@ public class NickCageGame {
             JOptionPane.showMessageDialog(null, failStatement, "Nick Of Cage", JOptionPane.WARNING_MESSAGE);
     }
     public boolean testStrength() {
-        int di = r.nextInt(11);
+        int di = (int) Math.random() * 10;
         
-        return (di + strength <= s);
+        return (strength >= di);
     }
     public boolean testIntel() { 
-        int di = r.nextInt(11);
+        int di = (int) Math.random() * 10;
         
-        return (di + intel <= s);
+        return (intel >= di);
     }
     public boolean testBall() {
-        int di = r.nextInt(11);
+        int di = (int) Math.random() * 10;
         
-        return (di + ballistics <= s);
+        return (ballistics >= di);
     }
     public boolean testMelee() { 
-        int di = r.nextInt(11);
+        int di = (int) Math.random() * 10;
         
-        return (di + melee <= s);
+        return (melee >= di);
     }
     public boolean testDiplo() {
-        int di = r.nextInt(11);
+        int di = (int) Math.random() * 10;
         
-        return (di + diplomacy <= s);
+        return (diplomacy >= di);
     }
     
     
     
-    //full gui and reaction for the 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//Step one
     @SuppressWarnings("deprecation")
     public void stepOne(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
         
@@ -160,7 +173,7 @@ public class NickCageGame {
             @Override
             public void actionPerformed(ActionEvent e) {
                
-                if (testDiplo(5)) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
                     String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
                     printSuccess(winner);     
                                    }                    
@@ -183,7 +196,7 @@ public class NickCageGame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                if (testDiplo(5)) {          
+                if (testDiplo()) {          
                     String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
                     printSuccess(winner);
                 }                    
@@ -205,7 +218,7 @@ public class NickCageGame {
             public void actionPerformed(ActionEvent e) {
                
                 
-                if (testDiplo(5)) {          
+                if (testDiplo()) {          
                     String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
                     printSuccess(winner);                
                 }                    
@@ -255,14 +268,1228 @@ public class NickCageGame {
                 JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
          }
     }
-    //TODO copy and paste stepOne (change name to stepTwo) and fill in values to make tasks 
+
     
+    
+    
+    
+    
+    
+    
+//Step Two
+    @SuppressWarnings("deprecation")
+    public void stepTwo(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();
+        
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//Step Three
+    @SuppressWarnings("deprecation")
+    public void stepThree(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();
+        
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//Step Four
+    @SuppressWarnings("deprecation")
+    public void stepFour(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();
+        
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//Step Five
+    @SuppressWarnings("deprecation")
+    public void stepFive(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();
+        
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//Step Six
+    @SuppressWarnings("deprecation")
+    public void stepSix(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();       
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//Step Seven
+    @SuppressWarnings("deprecation")
+    public void stepSeven(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();
+        
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+    
+    
+    
+
+    
+//Step Eight
+    @SuppressWarnings("deprecation")
+    public void stepEight(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();
+        
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+    
+    
+    
+    
+    
+//Step Nine
+    @SuppressWarnings("deprecation")
+    public void stepNine(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();
+        
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
+ 
+//Step Ten
+    @SuppressWarnings("deprecation")
+    public void stepTen(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
+        mainFrame.setSize(700, 400);
+        mainFrame.setTitle("Nick Of Cage");
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
+        
+        
+        String label = String.format("Role: %s \t\t         Health: %d", name, health);
+        JLabel status = new JLabel(label);
+        
+        JButton optionA = new JButton(buttonAMessage);
+        JButton optionB = new JButton(buttonBMessage);
+        JButton optionC = new JButton(buttonCMessage);
+        JLabel message = new JLabel(textMessage);
+        
+        
+        //if they choose A
+        optionA.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                if (testDiplo()) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                
+            }  
+        }
+        );
+        
+        
+        //If they choose B
+        optionB.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        //If they choose C
+        optionC.addActionListener (
+                                   new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                
+                if (testDiplo()) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+            }
+        }
+        );
+        
+        
+        //Text Panel;
+        JPanel panel1 = new JPanel(new SpringLayout());
+        panel1.setPreferredSize(new Dimension(305,20));
+        panel1.setBackground(Color.GRAY);
+        panel1.add(message);
+        mainFrame.add(panel1, BorderLayout.WEST);
+        
+        //Options Panel;
+        JPanel panel2 = new JPanel(new GridLayout(3,0,5,5));
+        panel2.setPreferredSize(new Dimension(380, 50));
+        panel2.setBackground(Color.darkGray);
+        panel2.add(optionA);
+        panel2.add(optionB);
+        panel2.add(optionC);
+        mainFrame.add(panel2, BorderLayout.EAST);
+        
+        //Health and Info
+        JPanel panel3 = new JPanel();
+        panel3.setPreferredSize(new Dimension(30,50));
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel3.add(status);
+        mainFrame.add(panel3, BorderLayout.NORTH);
+        
+
+        mainFrame.show();
+        
+        
+        
+        
+         if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+         }
+    }
     public static void main(String[] args) {
         NickCageGame ncg = new NickCageGame();
         ncg.gameSetup();
         ncg.stepOne("run away", "fight the fire", "jump out the window", "You wake up in your apartment and the building is burning ");
-        //ncg.stepTwo();
-        //ect.
+        ncg.stepTwo();
+        ncg.stepThree();
+        ncg.stepFour();
+        ncg.stepFive();
+        ncg.stepSix();
+        ncg.stepSeven();
+        ncg.stepEight();
+        ncg.stepNine();
+        ncg.stepTen();
 
         
     }
