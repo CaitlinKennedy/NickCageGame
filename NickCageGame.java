@@ -10,7 +10,6 @@ public class NickCageGame {
     
     private String name;
     private int health = 5;
-    private int s;                                             //TODO  Needs to be declared somewhere, not sure what it is for difficulty???
     
     private int strength;
     private int intel;
@@ -89,12 +88,61 @@ public class NickCageGame {
     }
     
     //call method everytime to print gui and just pass step specific text as arguments
-    @SuppressWarnings("deprecation")
-    public void printGUI(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {
+    
+    public void printGUI() {
         
+        
+        
+    }
+    // allows you to pass a situation specific success message and prints in a joptionpane
+    public void printSuccess(String successStatement){
+        
+        JOptionPane.showMessageDialog(null, successStatement, "Nick Of Cage", JOptionPane.INFORMATION_MESSAGE);
+    }
+    // allows you to pass a situation specific fail message and prints in a joptionpane
+    public void printFail(String failStatement) {
+            JOptionPane.showMessageDialog(null, failStatement, "Nick Of Cage", JOptionPane.WARNING_MESSAGE);
+    }
+    public boolean testStrength() {
+        int di = r.nextInt(11);
+        
+        return (di + strength <= s);
+    }
+    public boolean testIntel() { 
+        int di = r.nextInt(11);
+        
+        return (di + intel <= s);
+    }
+    public boolean testBall() {
+        int di = r.nextInt(11);
+        
+        return (di + ballistics <= s);
+    }
+    public boolean testMelee() { 
+        int di = r.nextInt(11);
+        
+        return (di + melee <= s);
+    }
+    public boolean testDiplo() {
+        int di = r.nextInt(11);
+        
+        return (di + diplomacy <= s);
+    }
+    
+    
+    
+    //full gui and reaction for the 
+    @SuppressWarnings("deprecation")
+    public void stepOne(String buttonAMessage, String buttonBMessage, String buttonCMessage, String textMessage) {   //do something to close the guis
+        
+                        
         mainFrame.setSize(700, 400);
         mainFrame.setTitle("Nick Of Cage");
         mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
+        JDialog dialog = new JDialog();
+        dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+
         
         
         String label = String.format("Role: %s \t\t         Health: %d", name, health);
@@ -106,33 +154,67 @@ public class NickCageGame {
         JLabel message = new JLabel(textMessage);
         
         
-        
+        //if they choose A
         optionA.addActionListener (
                                    new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                choice = "A";
+               
+                if (testDiplo(5)) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);     
+                                   }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);                    
+                }
                 mainFrame.setVisible(false);
                 mainFrame.dispose();
-                System.out.println("Action Listiner says choice is A: " + choice);
+                
             }  
         }
         );
+        
+        
+        //If they choose B
         optionB.addActionListener (
                                    new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                choice = "B";
+                
+                if (testDiplo(5)) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
                 mainFrame.setVisible(false);
                 mainFrame.dispose();
             }
         }
         );
+        
+        //If they choose C
         optionC.addActionListener (
                                    new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                choice = "C";
+               
+                
+                if (testDiplo(5)) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with your diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost", name); 
+                    health--;
+                    stepOne(buttonAMessage, buttonBMessage, buttonCMessage, textMessage);
+                }
+                
                 mainFrame.setVisible(false);
                 mainFrame.dispose();
             }
@@ -166,95 +248,19 @@ public class NickCageGame {
 
         mainFrame.show();
         
-    }
-    // allows you to pass a situation specific success message and prints in a joptionpane
-    public void printSuccess(String successStatement){
         
-        JOptionPane.showMessageDialog(null, successStatement, "Nick Of Cage", JOptionPane.INFORMATION_MESSAGE);
-    }
-    // allows you to pass a situation specific fail message and prints in a joptionpane
-    public void printFail(String failStatement) {
-            JOptionPane.showMessageDialog(null, failStatement, "Nick Of Cage", JOptionPane.WARNING_MESSAGE);
-    }
-    public boolean testStrength(int s) {
-        int di = r.nextInt(11);
         
-        return (di + strength <= s);
-    }
-    public boolean testIntel(int s) { 
-        int di = r.nextInt(11);
         
-        return (di + intel <= s);
-    }
-    public boolean testBall(int s) {
-        int di = r.nextInt(11);
-        
-        return (di + ballistics <= s);
-    }
-    public boolean testMelee(int s) { 
-        int di = r.nextInt(11);
-        
-        return (di + melee <= s);
-    }
-    public boolean testDiplo(int s) {
-        int di = r.nextInt(11);
-        
-        return (di + diplomacy <= s);
-    }
-    public void stepOne() {   //do something to close the guis
-        boolean valid = false;
-        while (!valid) {
-            if (health == 0) {
+         if (health == 0) {
                 JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
-                break;
-            }
-            printGUI( "", "", "", "");
-            Thread.join();
-            //TODO a, b, c, and text for the first stage
-            System.out.println(choice);
-            if (choice.equals("A")) {
-                if (testDiplo(5)) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
-                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
-                    printSuccess(winner);      
-                    valid = true;
-                }                    
-                else {
-                    String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
-                    health--;
-                    
-                }
-            }
-            if (choice.equals("B")) {               //TODO change all the values just like choice a 
-                if (testDiplo(5)) {          
-                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
-                    printSuccess(winner);
-                    valid = true;
-                }                    
-                else {
-                    String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
-                    health--;
-                    valid = true;
-                }
-            }
-            if (choice.equals("C")) {     //TODO change all the values just like choice a and b
-                if (testDiplo(5)) {          
-                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
-                    printSuccess(winner);                
-                }                    
-                else {
-                    String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
-                    health--;
-                    valid = true;
-                }
-            }    
-        }
+         }
     }
     //TODO copy and paste stepOne (change name to stepTwo) and fill in values to make tasks 
     
     public static void main(String[] args) {
         NickCageGame ncg = new NickCageGame();
         ncg.gameSetup();
-        ncg.stepOne();
+        ncg.stepOne("run away", "fight the fire", "jump out the window", "You wake up in your apartment and the building is burning ");
         //ncg.stepTwo();
         //ect.
 
