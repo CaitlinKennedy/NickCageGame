@@ -9,7 +9,7 @@ import java.util.Random;
 public class NickCageGame {
     
     private String name;
-    private int health;
+    private int health = 5;
     private int s;                                             //TODO  Needs to be declared somewhere, not sure what it is for difficulty???
     
     private int strength;
@@ -112,6 +112,9 @@ public class NickCageGame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 choice = "A";
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
+                System.out.println("Action Listiner says choice is A: " + choice);
             }  
         }
         );
@@ -120,6 +123,8 @@ public class NickCageGame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 choice = "B";
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
             }
         }
         );
@@ -128,6 +133,8 @@ public class NickCageGame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 choice = "C";
+                mainFrame.setVisible(false);
+                mainFrame.dispose();
             }
         }
         );
@@ -194,41 +201,53 @@ public class NickCageGame {
         
         return (di + diplomacy <= s);
     }
-    public void stepOne() {
-        printGUI( "", "", "", "");               //TODO a, b, c, and text for the first stage
-        if (choice.equals("A")) {
-            if (testDiplo(5)) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
-                String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
-                printSuccess(winner);                
-            }                    
-            else {
-                String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
-                health--;
-                stageOne();
+    public void stepOne() {   //do something to close the guis
+        boolean valid = false;
+        while (!valid) {
+            if (health == 0) {
+                JOptionPane.showMessageDialog(null, "You do not have the awesome skill of Nick Cage and you have lost", "Nick Of Cage", JOptionPane.ERROR_MESSAGE);
+                break;
             }
+            printGUI( "", "", "", "");
+            Thread.join();
+            //TODO a, b, c, and text for the first stage
+            System.out.println(choice);
+            if (choice.equals("A")) {
+                if (testDiplo(5)) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);      
+                    valid = true;
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
+                    health--;
+                    
+                }
+            }
+            if (choice.equals("B")) {               //TODO change all the values just like choice a 
+                if (testDiplo(5)) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);
+                    valid = true;
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
+                    health--;
+                    valid = true;
+                }
+            }
+            if (choice.equals("C")) {     //TODO change all the values just like choice a and b
+                if (testDiplo(5)) {          
+                    String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                    printSuccess(winner);                
+                }                    
+                else {
+                    String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
+                    health--;
+                    valid = true;
+                }
+            }    
         }
-        if (choice.equals("B")) {               //TODO change all the values just like choice a 
-            if (testDiplo(5)) {          
-                String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
-                printSuccess(winner);                
-            }                    
-            else {
-                String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
-                health--;
-                stageOne();
-            }
-        }
-        if (choice.equals("C")) {     //TODO change all the values just like choice a and b
-            if (testDiplo(5)) {          t
-                String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
-            printSuccess(winner);                
-            }                    
-            else {
-                String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
-                health--;
-                stageOne();
-            }
-        }        
     }
     //TODO copy and paste stepOne (change name to stepTwo) and fill in values to make tasks 
     
@@ -236,7 +255,7 @@ public class NickCageGame {
         NickCageGame ncg = new NickCageGame();
         ncg.gameSetup();
         ncg.stepOne();
-        ncg.stepTwo();
+        //ncg.stepTwo();
         //ect.
 
         
