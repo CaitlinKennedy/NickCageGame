@@ -4,11 +4,13 @@ import javax.swing.JOptionPane;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class NickCageGame {
     
     private String name;
     private int health;
+    private int s;                                             //TODO  Needs to be declared somewhere, not sure what it is for difficulty???
     
     private int strength;
     private int intel;
@@ -22,7 +24,7 @@ public class NickCageGame {
     public JFrame mainFrame = new JFrame();
     
     private String choice;
-    
+    private Random r = new Random();
     
     //inital dialog to start game and choose character
     public void gameSetup() {
@@ -158,9 +160,85 @@ public class NickCageGame {
         mainFrame.show();
         
     }
+    // allows you to pass a situation specific success message and prints in a joptionpane
+    public void printSuccess(String successStatement){
+        
+        JOptionPane.showMessageDialog(null, successStatement, "Nick Of Cage", JOptionPane.INFORMATION_MESSAGE);
+    }
+    // allows you to pass a situation specific fail message and prints in a joptionpane
+    public void printFail(String failStatement) {
+            JOptionPane.showMessageDialog(null, failStatement, "Nick Of Cage", JOptionPane.WARNING_MESSAGE);
+    }
+    public boolean testStrength(int s) {
+        int di = r.nextInt(11);
+        
+        return (di + strength <= s);
+    }
+    public boolean testIntel(int s) { 
+        int di = r.nextInt(11);
+        
+        return (di + intel <= s);
+    }
+    public boolean testBall(int s) {
+        int di = r.nextInt(11);
+        
+        return (di + ballistics <= s);
+    }
+    public boolean testMelee(int s) { 
+        int di = r.nextInt(11);
+        
+        return (di + melee <= s);
+    }
+    public boolean testDiplo(int s) {
+        int di = r.nextInt(11);
+        
+        return (di + diplomacy <= s);
+    }
+    public void stepOne() {
+        printGUI( "", "", "", "");               //TODO a, b, c, and text for the first stage
+        if (choice.equals("A")) {
+            if (testDiplo(5)) {          //TODO i dont know what s should be so i just put 5 + doesnt have to be diplo, pick what fits best
+                String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                printSuccess(winner);                
+            }                    
+            else {
+                String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
+                health--;
+                stageOne();
+            }
+        }
+        if (choice.equals("B")) {               //TODO change all the values just like choice a 
+            if (testDiplo(5)) {          
+                String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+                printSuccess(winner);                
+            }                    
+            else {
+                String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
+                health--;
+                stageOne();
+            }
+        }
+        if (choice.equals("C")) {     //TODO change all the values just like choice a and b
+            if (testDiplo(5)) {          t
+                String winner = String.format("Nick Cage has made it past the first tast with %s's diplomacy", name);
+            printSuccess(winner);                
+            }                    
+            else {
+                String loser = String.format("%s has insufficient diplomacy skills. Health lost"); 
+                health--;
+                stageOne();
+            }
+        }        
+    }
+    //TODO copy and paste stepOne (change name to stepTwo) and fill in values to make tasks 
+    
     public static void main(String[] args) {
         NickCageGame ncg = new NickCageGame();
         ncg.gameSetup();
-        ncg.printGUI("I", "Am", "Awesome", "Look at this");
+        ncg.stepOne();
+        ncg.stepTwo();
+        //ect.
+
+        
     }
 }
